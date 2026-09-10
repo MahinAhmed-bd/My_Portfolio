@@ -7,9 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     hamburger.addEventListener('click', () => {
         navLinks.classList.toggle('active');
-        // Toggle hamburger icon between bars and times
+
         const icon = hamburger.querySelector('i');
-        if(navLinks.classList.contains('active')){
+
+        if (navLinks.classList.contains('active')) {
             icon.classList.remove('fa-bars');
             icon.classList.add('fa-times');
         } else {
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     links.forEach(link => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('active');
+
             const icon = hamburger.querySelector('i');
             icon.classList.remove('fa-times');
             icon.classList.add('fa-bars');
@@ -30,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Sticky Navbar Effect
     const navbar = document.getElementById('navbar');
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.5)';
@@ -42,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Scroll Reveal Animation using IntersectionObserver
     const fadeUpElements = document.querySelectorAll('.fade-up');
-    
+
     const observerOptions = {
         root: null,
         rootMargin: '0px',
@@ -53,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // Stop observing once visible
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
@@ -71,11 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
     modalTriggers.forEach(trigger => {
         trigger.addEventListener('click', (e) => {
             e.preventDefault();
+
             const modalId = trigger.getAttribute('data-modal');
             const modal = document.getElementById(modalId);
-            if(modal) {
+
+            if (modal) {
                 modal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                document.body.style.overflow = 'hidden';
             }
         });
     });
@@ -86,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modals.forEach(modal => {
                 modal.classList.remove('active');
             });
+
             document.body.style.overflow = 'auto';
         });
     });
@@ -100,28 +106,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Contact Form Demo Handler
-    const contactForm = document.getElementById('contactForm');
-    if(contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevent page reload for demo
-            const btn = contactForm.querySelector('button[type="submit"]');
-            const originalText = btn.innerText;
-            
-            // Visual feedback
-            btn.innerText = 'Message Sent!';
-            btn.style.backgroundColor = 'var(--accent)';
-            btn.style.color = '#fff';
-            
-            // Reset form
-            contactForm.reset();
-            
-            // Revert button after 3 seconds
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.backgroundColor = 'var(--primary)';
-                btn.style.color = 'var(--bg-dark)';
-            }, 3000);
-        });
-    }
 });
