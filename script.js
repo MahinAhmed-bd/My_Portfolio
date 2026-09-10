@@ -5,45 +5,53 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelector('.nav-links');
     const links = document.querySelectorAll('.nav-links li a');
 
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-
-        const icon = hamburger.querySelector('i');
-
-        if (navLinks.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-    });
-
-    // Close mobile menu when a link is clicked
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
 
             const icon = hamburger.querySelector('i');
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
+
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
         });
-    });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+
+                const icon = hamburger.querySelector('i');
+
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+    }
+
 
     // 2. Sticky Navbar Effect
     const navbar = document.getElementById('navbar');
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.5)';
-            navbar.style.padding = '0.5rem 0';
-        } else {
-            navbar.style.boxShadow = 'none';
-            navbar.style.padding = '0';
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.5)';
+                navbar.style.padding = '0.5rem 0';
+            } else {
+                navbar.style.boxShadow = 'none';
+                navbar.style.padding = '0';
+            }
+        });
+    }
 
-    // 3. Scroll Reveal Animation using IntersectionObserver
+
+    // 3. Scroll Reveal Animation
     const fadeUpElements = document.querySelectorAll('.fade-up');
 
     const observerOptions = {
@@ -64,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fadeUpElements.forEach(el => {
         observer.observe(el);
     });
+
 
     // 4. Modal System (Case Studies)
     const modalTriggers = document.querySelectorAll('.modal-trigger');
@@ -96,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Close Modal via clicking outside content
+    // Close Modal by clicking outside
     modals.forEach(modal => {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
@@ -105,5 +114,73 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+
+    // 5. Formspree Contact Form
+    const contactForm = document.querySelector('.contact-form');
+
+    if (contactForm) {
+
+        contactForm.addEventListener('submit', async (e) => {
+
+            e.preventDefault();
+
+            const submitButton = contactForm.querySelector(
+                'button[type="submit"]'
+            );
+
+            const originalText = submitButton.innerText;
+
+            // Show sending status
+            submitButton.innerText = 'Sending...';
+            submitButton.disabled = true;
+
+            try {
+
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: new FormData(contactForm),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+
+                    // Clear form fields
+                    contactForm.reset();
+
+                    // Success message
+                    submitButton.innerText = 'Message Sent ✓';
+
+                    // Return button to normal after 3 seconds
+                    setTimeout(() => {
+                        submitButton.innerText = originalText;
+                        submitButton.disabled = false;
+                    }, 7000);
+
+                } else {
+
+                    // Error message
+                    submitButton.innerText = 'Failed to Send';
+
+                    setTimeout(() => {
+                        submitButton.innerText = originalText;
+                        submitButton.disabled = false;
+                    }, 3000);
+                }
+
+            } catch (error) {
+
+                // Network error
+                submitButton.innerText = 'Error! Try Again';
+
+                setTimeout(() => {
+                    submitButton.innerText = originalText;
+                    submitButton.disabled = false;
+                }, 3000);
+            }
+        });
+    }
 
 });
