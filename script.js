@@ -149,9 +149,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Clear form fields
                     contactForm.reset();
+                    window.datalayer=window.datalayer||[];
+                    window.datalayer.push({
+                        event: 'generate_lead',
+                    });
 
                     // Success message
-                    submitButton.innerText = 'Message Sent ✓';
+                    submitButton.innerText = 'Message Sent Successfully!';
 
                     // Return button to normal after 3 seconds
                     setTimeout(() => {
