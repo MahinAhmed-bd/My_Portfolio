@@ -149,10 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Clear form fields
                     contactForm.reset();
-                    window.datalayer=window.datalayer||[];
-                    window.datalayer.push({
-                        event: 'generate_lead',
-                    });
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                    event: "generate_lead"
+                });
 
                     // Success message
                     submitButton.innerText = 'Message Sent Successfully!';
